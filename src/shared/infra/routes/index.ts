@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { ensureAuthenticated } from '../http/middlewares/ensureAuthenticated';
-import { accountUserRouter } from './accountUser.routes';
-import { authenticateRouter } from './authenticate.routes';
-import { userRoutes } from './user-routes';
+import { accountUserRouter } from './accounts/account.routes';
+import { authenticateRouter } from './authentication/authenticate.routes';
+import { userRoutes } from './users/user-routes';
 
 const routes = Router();
 

@@ -1,0 +1,5 @@
+class TransactionUseCase {
+
+}
+
+export { TransactionUseCase };

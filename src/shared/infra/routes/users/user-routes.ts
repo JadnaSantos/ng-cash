@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
-import { CreateUserController } from '../../../modules/user/useCases/createUser/CreateUserController';
+import { CreateUserController } from '../../../../modules/user/useCases/createUser/CreateUserController';
 
 const userRoutes = Router();
 

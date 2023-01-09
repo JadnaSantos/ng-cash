@@ -1,12 +1,13 @@
 import { Accounts } from '@prisma/client';
 import { prisma } from '../../../../shared/infra/database';
+import { IAccountUserDTO } from '../../dtos/IAccountUserDTO';
 import { IAccountRepository } from '../interface/IAccountRepository';
 
 class AccountRepository implements IAccountRepository {
-  async accountBalance(user_id: number): Promise<Accounts> {
+  async accountBalance({ id }: IAccountUserDTO): Promise<Accounts> {
     const account = await prisma.accounts.findUnique({
       where: {
-        id: Number(user_id),
+        id: Number(id),
       },
       include: {
         Users: {
@@ -17,8 +18,6 @@ class AccountRepository implements IAccountRepository {
       }
 
     });
-
-
 
     return account as Accounts;
   }

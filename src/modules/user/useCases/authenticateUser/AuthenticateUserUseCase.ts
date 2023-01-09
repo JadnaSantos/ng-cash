@@ -2,6 +2,7 @@ import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
 import { AppError } from '../../../../shared/infra/http/errors/AppError';
+import { IAuthenticateUserDTO } from '../../dtos/IAuthenticateUserDTO';
 import { IUsersRepository } from '../../repositories/interfaces/IUserRepository';
 
 interface IResponse {
@@ -20,7 +21,7 @@ class AuthenticateUserUseCase {
   ) { }
 
 
-  async execute(username: string, password: string) {
+  async execute({ username, password }: IAuthenticateUserDTO) {
     const user = await this.usersRepository.findByEmail(username);
 
     if (!user) {
@@ -30,7 +31,7 @@ class AuthenticateUserUseCase {
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new AppError('Email or passoword is incorrect!',);
+      throw new AppError('Email or passoword is incorrect!', 404);
     }
 
     const token = sign({ username }, 'ea4a8611b3d582013a33f8ff42cbaf39', {

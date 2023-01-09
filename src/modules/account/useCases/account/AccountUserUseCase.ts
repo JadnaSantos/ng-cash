@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { AppError } from '../../../../shared/infra/http/errors/AppError';
+import { IAccountUserDTO } from '../../dtos/IAccountUserDTO';
 import { IAccountRepository } from '../../repositories/interface/IAccountRepository';
 
 @injectable()
@@ -9,8 +10,8 @@ class AccountUserUseCase {
     private accountRepository: IAccountRepository
   ) { }
 
-  async execute(user_id: number) {
-    const userAccount = await this.accountRepository.accountBalance(user_id);
+  async execute({ id }: IAccountUserDTO) {
+    const userAccount = await this.accountRepository.accountBalance({ id });
 
     if (!userAccount) {
       throw new AppError('Not authorized', 401);

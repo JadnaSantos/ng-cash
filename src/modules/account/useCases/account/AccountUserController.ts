@@ -5,11 +5,11 @@ import { AccountUserUseCase } from './AccountUserUseCase';
 class AccountUserController {
   async handle(request: Request, response: Response) {
 
-    const user_id = request.user.id;
+    const id = request.user.id;
 
     const accountUserCase = container.resolve(AccountUserUseCase);
 
-    const account = await accountUserCase.execute(user_id as unknown as number);
+    const account = await accountUserCase.execute({ id });
 
     return response.status(201).json(account);
   }

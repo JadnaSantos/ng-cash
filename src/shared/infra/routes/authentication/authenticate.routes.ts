@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
-import { AuthenticateUserController } from '../../../modules/user/useCases/authenticateUser/AuthenticateUserController';
+import { AuthenticateUserController } from '../../../../modules/user/useCases/authenticateUser/AuthenticateUserController';
 
 const authenticateRouter = Router();
 
