@@ -4,19 +4,21 @@ import { IAccountUserDTO } from '../../dtos/IAccountUserDTO';
 import { IAccountRepository } from '../interface/IAccountRepository';
 
 class AccountRepository implements IAccountRepository {
-  async accountBalance({ id }: IAccountUserDTO): Promise<Accounts> {
+  async findAccountById({ id }: IAccountUserDTO): Promise<Accounts> {
     const account = await prisma.accounts.findUnique({
       where: {
         id: Number(id),
       },
-      include: {
+      select: {
+        id: true,
+        balance: true,
         Users: {
           select: {
             id: true,
+            username: true,
           }
         }
       }
-
     });
 
     return account as Accounts;

@@ -1,53 +1,72 @@
 import { Accounts, Transactions } from '@prisma/client';
-import { Decimal } from '@prisma/client/runtime';
 import { prisma } from '../../../../shared/infra/database';
-import { AppError } from '../../../../shared/infra/http/errors/AppError';
-import { ITransaction } from '../interface/ITransactionRespository';
+import { ITransactionDTO } from '../../dtos/ITransactionDTO';
+import { ITransactionRepository } from '../interface/ITransactionRespository';
 
-class Transaction implements ITransaction {
-  async create(
-    id: number,
-    debitedAccountId: number,
-    creditedAccountId: number,
-    value: number
-  ): Promise<Transactions> {
-    const transaction = await prisma.transactions.create({
-      data: {
-        id: Number(id),
-        creditedAccountId,
-        debitedAccountId,
-        value
-      }
-    });
-
-    return transaction;
-  }
-
-
-  async findByAccountId(id: number): Promise<Transactions[]> {
-    const transaction = await prisma.transactions.findMany({
+class TransactionRepository implements ITransactionRepository {
+  async findAllTransactions({ id }: ITransactionDTO): Promise<Transactions[]> {
+    const allTransations = await prisma.transactions.findMany({
       where: {
         OR: [
-          { debitedAccountId: id },
-          { creditedAccountId: id },
-        ]
+          {
+            debitedAccountId: Number(id),
+            creditedAccountId: Number(id)
+          }
+        ],
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      select: {
+        id: true,
+        value: true,
+        createdAt: true,
+        creditedAccountId: true,
+        debitedAccountId: true,
       }
     });
 
-    return transaction;
+    return allTransations;
   }
 
-  async findByCashIn(id: number): Promise<Transactions[]> {
+  async findManyByCashOut({ id }: ITransactionDTO): Promise<Transactions[]> {
     const transactions = await prisma.transactions.findMany({
       where: {
-        creditedAccountId: id
+        debitedAccountId: id
+      },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        value: true,
+        debitedAccountId: true,
+        creditedAccountId: true,
+        createdAt: true,
       }
     });
 
     return transactions;
   }
 
-  async findByCashOut(id: number, from: string, to: string): Promise<Transactions[]> {
+
+  async findManyByCashIn({ id }: ITransactionDTO): Promise<Transactions[]> {
+    const transactions = await prisma.transactions.findMany({
+      where: {
+        creditedAccountId: id
+      },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        value: true,
+        debitedAccountId: true,
+        creditedAccountId: true,
+        createdAt: true,
+      }
+    });
+
+    return transactions;
+  }
+
+  async findManyByDateRange(id: string, from: string, to: string): Promise<Transactions[]> {
     const transactions = await prisma.transactions.findMany({
       where: {
         createdAt: {
@@ -55,8 +74,8 @@ class Transaction implements ITransaction {
           gte: new Date(from)
         },
         OR: [
-          { debitedAccountId: id },
-          { creditedAccountId: id },
+          { creditedAccountId: Number(id) },
+          { debitedAccountId: Number(id) }
         ]
       }
     });
@@ -64,39 +83,50 @@ class Transaction implements ITransaction {
     return transactions;
   }
 
-  async updateBalance(id: number, value: number, isChashIn: boolean): Promise<Accounts> {
-    if (value < 0 || value == 0) {
-      throw new AppError('value must be highier then 0');
-    }
+  // async create({ id, creditedAccountId, debitedAccountId, value }: ITransactionDTO): Promise<Transactions> {
+  //   const transactions = await prisma.transactions.create({
+  //     data: {
+  //       id,
+  //       debitedAccountId: Number(debitedAccountId),
+  //       creditedAccountId: Number(creditedAccountId),
+  //       value
+  //     }
+  //   });
 
-    const account: Accounts | null = await prisma.accounts.findUnique({ where: { id } });
+  //   return transactions;
+  // }
 
-    if (!account) {
-      throw new AppError('Could not find a account!');
-    }
 
-    const balance = account.balance;
-    let newBalance: Decimal;
 
-    if (balance.lessThan(value)) {
-      throw new AppError('Insuficient funds!');
-    }
+  async create({ id, creditedAccountId, debitedAccountId, value }: ITransactionDTO) {
+    const transaction = await prisma.$transaction([
+      prisma.accounts.update({
+        data: {
+          balance: value,
+        },
+        where: {
+          id
+        }
+      }),
+      prisma.accounts.update({
+        data: {
+          balance: value,
+        },
+        where: {
+          id
+        }
+      }),
+      prisma.transactions.create({
+        data: {
+          debitedAccountId: Number(debitedAccountId),
+          creditedAccountId: Number(creditedAccountId),
+          value
+        },
+      })
+    ]);
 
-    if (isChashIn) {
-      newBalance = Decimal.sum(balance, value);
-    } else {
-      newBalance = Decimal.sum(balance, value * -1);
-    }
-
-    const result: Accounts = await prisma.accounts.update({
-      where: { id },
-      data: {
-        balance: newBalance
-      }
-    });
-
-    return result;
+    return transaction;
   }
 }
 
-export { Transaction };
+export { TransactionRepository };

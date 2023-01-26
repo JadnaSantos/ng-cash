@@ -26,14 +26,12 @@ class UserRepository implements IUsersRepository {
   async findById(id: number): Promise<Users> {
     const user = await prisma.users.findUnique({
       where: {
-        id
+        accountId: id
       },
-      include: {
-        accounts: {
-          select: {
-            id: true
-          }
-        }
+      select: {
+        id: true,
+        username: true,
+        accountId: true
       }
     });
 

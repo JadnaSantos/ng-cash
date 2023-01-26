@@ -11,7 +11,8 @@ class AccountUserUseCase {
   ) { }
 
   async execute({ id }: IAccountUserDTO) {
-    const userAccount = await this.accountRepository.accountBalance({ id });
+
+    const userAccount = await this.accountRepository.findAccountById({ id });
 
     if (!userAccount) {
       throw new AppError('Not authorized', 401);

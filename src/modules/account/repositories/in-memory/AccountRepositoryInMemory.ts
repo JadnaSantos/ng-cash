@@ -4,6 +4,9 @@ import { IAccountRepository } from '../interface/IAccountRepository';
 
 
 class AccountRepositoryInMemory implements IAccountRepository {
+  findAccountById({ id }: IAccountUserDTO): Promise<Accounts> {
+    throw new Error('Method not implemented.');
+  }
 
   accounts: Accounts[] = [];
 

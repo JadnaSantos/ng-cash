@@ -1,5 +1,0 @@
-class TransactionUseCase {
-
-}
-
-export { TransactionUseCase };
