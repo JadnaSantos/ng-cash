@@ -1,7 +1,7 @@
 import { Decimal } from '@prisma/client/runtime';
 
 interface ITransactionDTO {
-  id?: number,
+  id: string;
   value: Decimal,
   created_at: Date,
   debitedAccountId?: string,

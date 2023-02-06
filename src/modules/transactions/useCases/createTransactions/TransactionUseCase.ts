@@ -2,7 +2,7 @@ import { Transactions } from '@prisma/client';
 import { inject, injectable } from 'tsyringe';
 import { IAccountRepository } from '../../../account/repositories/interface/IAccountRepository';
 import { ITransactionDTO } from '../../dtos/ITransactionDTO';
-import { ITransactionRepository } from '../../repositories/interface/ITransactionRepository';
+import { ITransactionRepository } from '../../repositories/interface/ITransactionRespository';
 
 interface IRequest {
   debited_user: string,
