@@ -2,9 +2,8 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import { hash } from 'bcrypt';
 import { IUsersRepository } from '../../repositories/interfaces/IUserRepository';
-import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
 import { AppError } from '../../../../shared/infra/http/errors/AppError';
-
+import { IUser } from '../../dtos/IUserDTO';
 
 @injectable()
 class CreateUserUseCase {
@@ -16,7 +15,7 @@ class CreateUserUseCase {
   async execute({
     username,
     password
-  }: ICreateUserDTO) {
+  }: IUser) {
 
     const isExistEmail = await this.usersRepository.findByEmail(username);
 

@@ -1,19 +1,20 @@
 import { Accounts } from '@prisma/client';
-import { IAccountUserDTO } from '../../dtos/IAccountUserDTO';
+import { IAccount } from '../../dtos/IAccountDTO';
 import { IAccountRepository } from '../interface/IAccountRepository';
 
 
 class AccountRepositoryInMemory implements IAccountRepository {
-  findAccountById({ id }: IAccountUserDTO): Promise<Accounts> {
-    throw new Error('Method not implemented.');
-  }
-
   accounts: Accounts[] = [];
 
-  accountBalance({ id }: IAccountUserDTO): Promise<Accounts | null> {
+  findAccountById({ id }: IAccount): Promise<Accounts> {
     const account = this.accounts.find(account => account.id === id);
 
     return account;
+  }
+
+
+  findAccountByUsername(username: string): Promise<Accounts> {
+    throw new Error('Method not implemented.');
   }
 
 

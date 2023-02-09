@@ -1,8 +1,9 @@
 import { Accounts } from '@prisma/client';
-import { IAccountUserDTO } from '../../dtos/IAccountUserDTO';
+import { IAccount } from '../../dtos/IAccountDTO';
 
 interface IAccountRepository {
-  findAccountById({ id }: IAccountUserDTO): Promise<Accounts>
+  findAccountById({ id }: IAccount): Promise<Accounts>
+  findAccountByUsername(username: string): Promise<Accounts>
 }
 
 export { IAccountRepository };

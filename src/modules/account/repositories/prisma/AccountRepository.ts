@@ -1,10 +1,10 @@
 import { Accounts } from '@prisma/client';
 import { prisma } from '../../../../shared/infra/database';
-import { IAccountUserDTO } from '../../dtos/IAccountUserDTO';
+import { IAccount } from '../../dtos/IAccountDTO';
 import { IAccountRepository } from '../interface/IAccountRepository';
 
 class AccountRepository implements IAccountRepository {
-  async findAccountById({ id }: IAccountUserDTO): Promise<Accounts> {
+  async findAccountById({ id }: IAccount): Promise<Accounts> {
     const account = await prisma.accounts.findUnique({
       where: {
         id: Number(id),
@@ -23,6 +23,19 @@ class AccountRepository implements IAccountRepository {
 
     return account as Accounts;
   }
+
+  async findAccountByUsername(username: string): Promise<Accounts> {
+    const account = await prisma.accounts.findFirst({
+      where: {
+        Users: {
+          username: username
+        }
+      }
+    });
+
+    return account as Accounts;
+  }
+
 }
 
 export { AccountRepository };

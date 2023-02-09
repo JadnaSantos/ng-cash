@@ -1,5 +1,5 @@
 import { Users } from '@prisma/client';
-import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
+import { IUser } from '../../dtos/IUserDTO';
 import { IUsersRepository } from '../../repositories/interfaces/IUserRepository';
 
 class UsersRepositoryInMemory implements IUsersRepository {
@@ -10,7 +10,7 @@ class UsersRepositoryInMemory implements IUsersRepository {
     id,
     username,
     password,
-  }: ICreateUserDTO): Promise<Users> {
+  }: IUser): Promise<Users> {
     const user: Users = {
       id: Number(id),
       username,

@@ -1,11 +1,11 @@
 import { Users } from '@prisma/client';
 import { prisma } from '../../../../shared/infra/database';
-import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
+import { IUser } from '../../dtos/IUserDTO';
 import { IUsersRepository } from '../interfaces/IUserRepository';
 
 class UserRepository implements IUsersRepository {
 
-  async create({ username, password }: ICreateUserDTO): Promise<Users> {
+  async create({ username, password }: IUser): Promise<Users> {
     const user = await prisma.users.create({
       data: {
         username,

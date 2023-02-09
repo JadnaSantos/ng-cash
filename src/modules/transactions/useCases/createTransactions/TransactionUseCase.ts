@@ -1,7 +1,8 @@
 import { Transactions } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime';
 import { inject, injectable } from 'tsyringe';
+import { AppError } from '../../../../shared/infra/http/errors/AppError';
 import { IAccountRepository } from '../../../account/repositories/interface/IAccountRepository';
-import { ITransactionDTO } from '../../dtos/ITransactionDTO';
 import { ITransactionRepository } from '../../repositories/interface/ITransactionRespository';
 
 interface IRequest {
@@ -16,9 +17,14 @@ class TransactionUseCase {
     @inject('TransactionRepository')
     private transactionRepository: ITransactionRepository,
     @inject('AccountUserRepository')
-    private accountRepository: IAccountRepository
+    private accountRepository: IAccountRepository,
   ) { }
 
+  async execute(): Promise<void> {
+
+  }
 }
+
+
 
 export { TransactionUseCase };

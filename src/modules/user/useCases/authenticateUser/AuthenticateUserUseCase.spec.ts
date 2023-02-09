@@ -1,5 +1,5 @@
 import { AppError } from '../../../../shared/infra/http/errors/AppError';
-import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
+import { IUser } from '../../dtos/IUserDTO';
 import { UsersRepositoryInMemory } from '../../repositories/in-memory/UsersRepositoryInMemory';
 import { CreateUserUseCase } from '../createUser/CreateUserUseCase';
 import { AuthenticateUserUseCase } from './AuthenticateUserUseCase';
@@ -22,7 +22,7 @@ describe('Authenticate User', () => {
   });
 
   it('should be able to authenticate user', async () => {
-    const user: ICreateUserDTO = {
+    const user: IUser = {
       username: 'test@example.com',
       password: '12345678',
     };
@@ -47,7 +47,7 @@ describe('Authenticate User', () => {
   });
 
   it('Should not be able to authenticate an user with a incorrect password', async () => {
-    const user: ICreateUserDTO = {
+    const user: IUser = {
       username: 'test@email.com',
       password: '123',
     };

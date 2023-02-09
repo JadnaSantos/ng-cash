@@ -1,6 +1,7 @@
+import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import { AppError } from '../../../../shared/infra/http/errors/AppError';
-import { IAccountUserDTO } from '../../dtos/IAccountUserDTO';
+import { IAccount } from '../../dtos/IAccountDTO';
 import { IAccountRepository } from '../../repositories/interface/IAccountRepository';
 
 @injectable()
@@ -10,7 +11,7 @@ class AccountUserUseCase {
     private accountRepository: IAccountRepository
   ) { }
 
-  async execute({ id }: IAccountUserDTO) {
+  async execute({ id }: IAccount) {
 
     const userAccount = await this.accountRepository.findAccountById({ id });
 
