@@ -1,19 +1,16 @@
-class IUser {
+import { Decimal } from '@prisma/client/runtime';
+
+interface IUser {
   id?: string;
   username: string;
   password: string;
+  accountId?: string;
 
-  private constructor({ username, password }: IUser) {
-    return Object.assign(this, {
-      username,
-      password
-    });
+  account?: {
+    id: string
+    balance: Decimal
   }
 
-  static create({ username, password }: IUser) {
-    const user = new IUser({ username, password });
-    return user;
-  }
 }
 
 export { IUser };

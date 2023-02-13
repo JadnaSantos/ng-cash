@@ -2,11 +2,11 @@ import { Transactions } from '@prisma/client';
 import { ITransaction } from '../../dtos/ITransactionDTO';
 
 interface ITransactionRepository {
-  create(data: ITransaction): Promise<Transactions>
-  filterDebited(data: ITransaction): Promise<Transactions[]>
-  filterCredited(data: ITransaction): Promise<Transactions[]>
-  debited(data: ITransaction): Promise<Transactions[]>
-  credited(data: ITransaction): Promise<Transactions[]>
+  getAllTransactions(id: number): Promise<Transactions[]>
+  getDebitedTransactions(id: number): Promise<Transactions[]>
+  getCreditedTransactions(id: number): Promise<Transactions[]>
+  createTransaction(data: ITransaction): Promise<Transactions>
+  findManyByDateRange(id: number, from: string, to: string): Promise<Transactions[]>
 }
 
 

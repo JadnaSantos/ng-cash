@@ -1,9 +1,8 @@
 import { Accounts } from '@prisma/client';
-import { IAccount } from '../../dtos/IAccountDTO';
 
 interface IAccountRepository {
-  findAccountById({ id }: IAccount): Promise<Accounts>
-  findAccountByUsername(username: string): Promise<Accounts>
+  findAccountById(id: number): Promise<Accounts>
+  updateBalance(id: number, value: number, isChashIn: boolean): Promise<Accounts>
 }
 
 export { IAccountRepository };

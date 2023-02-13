@@ -1,17 +1,8 @@
-class IAccount {
-  id?: number;
-  balance?: number;
+import { Decimal } from '@prisma/client/runtime';
 
-  private constructor({ id }: IAccount) {
-    return Object.assign(this, {
-      id
-    });
-  }
-
-  static create({ id }: IAccount) {
-    const account = new IAccount({ id });
-    return account;
-  }
+interface IAccount {
+  id: number,
+  balance: Decimal,
 }
 
 export { IAccount };

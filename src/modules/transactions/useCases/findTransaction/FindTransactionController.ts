@@ -1,5 +1,0 @@
-class TransactionController {
-
-}
-
-export { TransactionController };
