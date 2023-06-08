@@ -23,7 +23,7 @@ class AuthenticateUserUseCase {
 
 
   async execute({ username, password }: IAuthenticateUserDTO) {
-    const user = await this.usersRepository.findByEmail(username);
+    const user = await this.usersRepository.findByUsername(username);
 
     if (!user) {
       throw new AppError('User does not exist', 404);

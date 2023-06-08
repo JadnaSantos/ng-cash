@@ -27,7 +27,7 @@ describe('Create User', () => {
 
     });
 
-    const userCreated = await usersRepositoryInMemory.findByEmail(user.username);
+    const userCreated = await usersRepositoryInMemory.findByUsername(user.username);
     expect(userCreated).toHaveProperty('id');
   });
 

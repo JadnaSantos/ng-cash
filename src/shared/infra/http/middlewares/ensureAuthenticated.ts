@@ -17,6 +17,10 @@ async function ensureAuthenticated(request: Request, response: Response, next: N
 
   const [, token] = authHeader.split(' ');
 
+  if (!token) {
+    throw new AppError('You don not have permission to access this resource.', 401);
+  }
+
   try {
     const { sub: user_id } = verify(token, 'ea4a8611b3d582013a33f8ff42cbaf39') as IPayload;
 

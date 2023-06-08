@@ -10,6 +10,7 @@ const routes = Router();
 routes.use('/user', userRoutes);
 routes.use('/sessions', authenticateRouter);
 routes.use('/account', ensureAuthenticated, accountUserRouter);
+routes.use('/transfer', ensureAuthenticated, transactionRouter);
 routes.use('/all-transaction', ensureAuthenticated, transactionRouter);
 
 export { routes };

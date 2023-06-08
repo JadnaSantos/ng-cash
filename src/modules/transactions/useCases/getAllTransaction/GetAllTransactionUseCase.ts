@@ -76,7 +76,7 @@ class GetAllTransactioUseCase {
 
 
       default:
-        throw new AppError(`Invalid search method [ ${data.searchMethod} ]`, console.log(data.searchMethod));
+        throw new AppError(`Invalid search method [ ${data.searchMethod} ]`);
 
     }
   }

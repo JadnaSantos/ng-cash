@@ -17,7 +17,7 @@ class CreateUserUseCase {
     password
   }: IUser) {
 
-    const isExistEmail = await this.usersRepository.findByEmail(username);
+    const isExistEmail = await this.usersRepository.findByUsername(username);
 
     if (isExistEmail) {
       throw new AppError('Email already exists');

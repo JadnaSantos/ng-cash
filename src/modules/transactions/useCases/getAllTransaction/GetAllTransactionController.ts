@@ -4,12 +4,13 @@ import { GetAllTransactioUseCase } from './GetAllTransactionUseCase';
 
 class GetAllTransactionController {
   async handle(request: Request, response: Response) {
-    const { userId, searchMethod, from, to } = request.body;
+    const id = request.user.id;
+    const { searchMethod, from, to } = request.body;
 
     const userTransaction = container.resolve(GetAllTransactioUseCase);
 
     const transaction = await userTransaction.execute({
-      userId,
+      userId: id,
       searchMethod,
       from,
       to,

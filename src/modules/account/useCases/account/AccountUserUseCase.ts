@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import { AppError } from '../../../../shared/infra/http/errors/AppError';
-import { IAccount } from '../../dtos/IAccountDTO';
 import { IAccountRepository } from '../../repositories/interface/IAccountRepository';
 
 @injectable()
@@ -11,9 +10,9 @@ class AccountUserUseCase {
     private accountRepository: IAccountRepository
   ) { }
 
-  async execute({ id }: IAccount) {
+  async execute(id: number) {
 
-    const userAccount = await this.accountRepository.findAccountById({ id });
+    const userAccount = await this.accountRepository.checkBalace(id);
 
     if (!userAccount) {
       throw new AppError('Not authorized', 401);

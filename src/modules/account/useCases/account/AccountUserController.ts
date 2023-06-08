@@ -9,7 +9,7 @@ class AccountUserController {
 
     const accountUserCase = container.resolve(AccountUserUseCase);
 
-    const account = await accountUserCase.execute({ id });
+    const account = await accountUserCase.execute(id);
 
     return response.status(201).json(account);
   }

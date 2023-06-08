@@ -2,7 +2,7 @@ import { Decimal } from '@prisma/client/runtime';
 
 interface IAccount {
   id: number,
-  balance: Decimal,
+  balance?: Decimal,
 }
 
 export { IAccount };
