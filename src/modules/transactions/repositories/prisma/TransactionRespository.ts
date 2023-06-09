@@ -1,18 +1,18 @@
+import { Transactions } from '@prisma/client';
 import { prisma } from '../../../../shared/infra/database';
-import { ITransactionRepository } from '../interface/ITransactionRespository';
-import { AppError } from '../../../../shared/infra/http/errors/AppError';
+import { ICreateTransaction, ITransactionRepository } from '../interface/ITransactionRespository';
 
 class TransactionRepository implements ITransactionRepository {
-  async listTransitions(id: number) {
-    const account = await prisma.accounts.findMany({
-      where: {
-        id
+  async createTransaction(debitedAccountId: number, creditedAccountId: number, value: number): Promise<Transactions> {
+    const transaction = await prisma.transactions.create({
+      data: {
+        value,
+        debitedAccountId,
+        creditedAccountId
       }
     });
 
-    if (!account) {
-      throw new AppError('Conta não encontrada.', 404);
-    }
+    return transaction;
   }
 }
 

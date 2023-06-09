@@ -15,7 +15,7 @@ transactionRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      credited_user: Joi.number().required(),
+      username: Joi.string().required(),
       value: Joi.number().required()
     },
   }),

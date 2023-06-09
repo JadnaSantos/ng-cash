@@ -1,8 +1,13 @@
 import { Transactions } from '@prisma/client';
-import { Decimal } from '@prisma/client/runtime';
+
+export interface ICreateTransaction {
+  value: number
+  username: string
+  userId: number
+}
 
 interface ITransactionRepository {
-
+  createTransaction(debitedAccountId: number, creditedAccountId: number, value: number): Promise<Transactions>
 }
 
 

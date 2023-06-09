@@ -23,6 +23,18 @@ class AccountRepository implements IAccountRepository {
 
     return account as Accounts;
   }
+
+  async findAccountByUsername(username: string): Promise<Accounts | null> {
+    const accountByUsername = await prisma.accounts.findFirst({
+      where: {
+        Users: {
+          username
+        }
+      }
+    });
+
+    return accountByUsername;
+  }
 }
 
 export { AccountRepository };

@@ -55,6 +55,25 @@ class UserRepository implements IUsersRepository {
     return user as Users;
   }
 
+
+  async findByAccountUsername(id: number): Promise<Users> {
+    const user = await prisma.users.findUnique({
+      where: {
+        id
+      },
+      include: {
+        accounts: {
+          select: {
+            balance: true
+          }
+        }
+      }
+    });
+
+    return user as Users;
+  }
+
+
 }
 
 export { UserRepository };
